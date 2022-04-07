@@ -20,4 +20,22 @@ def new_task():
 
     return render_template('new_task.html', form=form)
 
+@app.route('/complete/<completed>/<int:id>')
+def complete_task(completed, id):
+    task = Tasks.query.get(id)
+    if completed == 'True':
+        task.completed = True
+        db.session.commit()
+    elif completed == 'False':
+        task.completed = False
+        db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/delete/<int:id>')
+def delete_task(id):
+    task = Tasks.query.get(id)
+    db.session.delete(task)
+    db.session.commit()
+    return redirect(url_for('index'))
+
 
