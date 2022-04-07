@@ -7,4 +7,4 @@ class TaskForm(FlaskForm):
         'Task Description', 
         validators=[DataRequired(), Length(max=100)]
     )
-    submit = SubmitField('Add Task')
+    submit = SubmitField('Submit')

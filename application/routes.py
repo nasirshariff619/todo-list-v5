@@ -31,11 +31,23 @@ def complete_task(completed, id):
         db.session.commit()
     return redirect(url_for('index'))
 
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit_task(id):
+    task = Tasks.query.get(id)
+    form = TaskForm()
+    
+    if request.method == "POST":
+        task.description = form.description.data
+        db.session.commit()
+        return redirect(url_for('index'))
+
+    form.description.data = task.description
+
+    return render_template('new_task.html', form=form)
+
 @app.route('/delete/<int:id>')
 def delete_task(id):
     task = Tasks.query.get(id)
     db.session.delete(task)
     db.session.commit()
     return redirect(url_for('index'))
-
-
